@@ -2,733 +2,482 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <meta name="theme-color" content="#667eea">
-    <title>AI Twin — Your Digital Representative</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Twin — Voice & Text</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Segoe UI', 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea, #764ba2);
             min-height: 100vh;
             padding: 20px;
-            position: relative;
         }
-
-        /* Animated background particles effect */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        /* Header with glow effect */
-        .header {
-            text-align: center;
-            margin-bottom: 30px;
-            animation: fadeInDown 0.8s ease;
-        }
-
-        .header h1 {
-            font-size: 3rem;
-            background: linear-gradient(135deg, #fff, #a8b9ff, #667eea);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-shadow: 0 0 30px rgba(102,126,234,0.3);
-        }
-
-        .header p {
-            color: rgba(255,255,255,0.7);
-            font-size: 1.1rem;
-            margin-top: 10px;
-        }
-
-        /* Futuristic Tabs */
-        .tabs {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .tab-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            padding: 14px 32px;
-            border-radius: 50px;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-        }
-
-        .tab-btn:hover {
-            background: rgba(102,126,234,0.3);
-            border-color: rgba(102,126,234,0.5);
-            transform: translateY(-2px);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border-color: transparent;
-            box-shadow: 0 5px 20px rgba(102,126,234,0.4);
-        }
-
-        /* Glassmorphism Cards */
+        .container { max-width: 800px; margin: auto; }
         .card {
-            background: rgba(255,255,255,0.05);
-            backdrop-filter: blur(10px);
-            border-radius: 24px;
-            padding: 28px;
-            margin-bottom: 25px;
-            border: 1px solid rgba(255,255,255,0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
-            border-color: rgba(102,126,234,0.3);
-        }
-
-        .card h2 {
-            color: white;
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
             margin-bottom: 20px;
-            font-size: 1.6rem;
-            background: linear-gradient(135deg, #fff, #a8b9ff);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-
-        .card h3 {
-            color: rgba(255,255,255,0.9);
-            margin: 20px 0 15px 0;
-            font-size: 1.2rem;
-        }
-
-        /* Form Elements - Futuristic */
+        h1, h2 { color: #333; margin-bottom: 15px; }
         input, textarea, select {
             width: 100%;
-            padding: 14px 18px;
-            margin: 8px 0 20px 0;
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(255,255,255,0.15);
-            border-radius: 16px;
-            font-size: 14px;
-            color: white;
-            transition: all 0.3s ease;
+            padding: 12px;
+            margin: 8px 0 16px 0;
+            border: 1px solid #ddd;
+            border-radius: 10px;
         }
-
-        input:focus, textarea:focus, select:focus {
-            outline: none;
-            border-color: #667eea;
-            background: rgba(255,255,255,0.12);
-            box-shadow: 0 0 15px rgba(102,126,234,0.2);
-        }
-
-        input::placeholder, textarea::placeholder {
-            color: rgba(255,255,255,0.4);
-        }
-
-        label {
-            font-weight: 600;
-            color: rgba(255,255,255,0.8);
-            display: block;
-            margin-top: 5px;
-            font-size: 0.9rem;
-        }
-
-        /* Buttons */
         button {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #667eea;
             color: white;
             border: none;
-            padding: 12px 28px;
-            border-radius: 40px;
+            padding: 12px 24px;
+            border-radius: 30px;
             cursor: pointer;
+            margin: 5px;
             font-size: 14px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-right: 12px;
-            margin-top: 10px;
-            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
         }
-
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(102,126,234,0.4);
-        }
-
-        button.secondary {
-            background: rgba(255,255,255,0.1);
-            box-shadow: none;
-        }
-
-        button.secondary:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        /* Status Messages */
-        .status {
-            padding: 12px 18px;
-            border-radius: 16px;
-            margin: 15px 0;
-            font-size: 14px;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .status.success {
-            background: rgba(72,187,120,0.2);
-            border: 1px solid rgba(72,187,120,0.5);
-            color: #9ae6b4;
-        }
-
-        .status.error {
-            background: rgba(245,101,101,0.2);
-            border: 1px solid rgba(245,101,101,0.5);
-            color: #fc8181;
-        }
-
-        .status.info {
-            background: rgba(66,153,225,0.2);
-            border: 1px solid rgba(66,153,225,0.5);
-            color: #90cdf4;
-        }
-
-        /* Chat Area - Futuristic */
+        button:hover { background: #5a67d8; transform: translateY(-2px); }
+        .mode-btn { background: #718096; }
+        .mode-btn.active { background: #667eea; }
         .chat-area {
-            background: rgba(0,0,0,0.3);
-            backdrop-filter: blur(5px);
-            border-radius: 24px;
-            padding: 20px;
-            min-height: 350px;
-            max-height: 450px;
+            background: #f7fafc;
+            border-radius: 15px;
+            padding: 15px;
+            min-height: 300px;
+            margin: 15px 0;
             overflow-y: auto;
-            margin: 20px 0;
-            border: 1px solid rgba(255,255,255,0.1);
         }
-
-        .chat-area::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        .chat-area::-webkit-scrollbar-track {
-            background: rgba(255,255,255,0.05);
-            border-radius: 10px;
-        }
-
-        .chat-area::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
-        }
-
         .message {
-            margin: 12px 0;
-            padding: 12px 20px;
-            border-radius: 20px;
+            padding: 10px 15px;
+            margin: 10px 0;
+            border-radius: 15px;
             max-width: 80%;
-            animation: slideIn 0.3s ease;
         }
-
         .message.user {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: #667eea;
             color: white;
             margin-left: auto;
             text-align: right;
-            border-bottom-right-radius: 4px;
         }
-
         .message.ai {
-            background: rgba(255,255,255,0.1);
-            color: white;
-            border-bottom-left-radius: 4px;
+            background: #e2e8f0;
+            color: #333;
         }
-
-        /* Recording Indicator */
         .recording-indicator {
             display: inline-block;
             width: 12px;
             height: 12px;
-            background: #ff4757;
+            background: red;
             border-radius: 50%;
-            animation: pulse 1.5s infinite;
+            animation: pulse 1s infinite;
             margin-right: 8px;
         }
-
         @keyframes pulse {
-            0% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(255,71,87,0.7); }
-            100% { opacity: 0; transform: scale(1.5); box-shadow: 0 0 0 10px rgba(255,71,87,0); }
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0; transform: scale(1.5); }
         }
-
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
+        .status {
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 14px;
         }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-
-        .grid-2 {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-        }
-
-        @media (max-width: 768px) {
-            .grid-2 {
-                grid-template-columns: 1fr;
-            }
-            .header h1 { font-size: 2rem; }
-            .tab-btn { padding: 10px 20px; font-size: 14px; }
-        }
-
-        /* Modal - Futuristic */
+        .status.info { background: #d1ecf1; color: #0c5460; }
+        .status.success { background: #d4edda; color: #155724; }
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
             background: rgba(0,0,0,0.8);
-            backdrop-filter: blur(15px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
-
-        .modal.active {
-            display: flex;
-            animation: fadeIn 0.3s ease;
-        }
-
+        .modal.active { display: flex; }
         .modal-content {
-            background: linear-gradient(135deg, #1a1a2e, #16213e);
-            max-width: 500px;
-            margin: 20px;
-            padding: 35px;
-            border-radius: 32px;
-            border: 1px solid rgba(102,126,234,0.5);
-            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 400px;
         }
-
-        .warning {
-            background: rgba(255,193,7,0.15);
-            border-left: 4px solid #ffc107;
-            padding: 15px 20px;
-            margin: 20px 0;
-            border-radius: 16px;
-            color: #ffd966;
-        }
-
-        hr {
-            border: none;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            margin: 25px 0;
-        }
+        .warning { background: #fff3cd; padding: 15px; border-radius: 10px; margin: 15px 0; }
+        .hidden { display: none; }
+        .flex-buttons { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 15px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>🤖 AI Twin Platform</h1>
-            <p>Your digital twin — indistinguishable voice, authentic stories</p>
-        </div>
+<div class="container">
+    <h1 style="color: white; text-align: center;">🤖 AI Twin Platform</h1>
+    <p style="color: white; text-align: center;">Voice-to-Voice or Text-to-Voice — you choose</p>
 
-        <div class="tabs">
-            <button class="tab-btn active" data-tab="profile">📋 Profile & CV</button>
-            <button class="tab-btn" data-tab="voice">🎤 Voice Setup</button>
-            <button class="tab-btn" data-tab="interview">💬 AI Interview</button>
-        </div>
-
-        <!-- Profile Tab -->
-        <div id="profile-tab" class="tab-content active">
-            <div class="card">
-                <h2>👤 Personal Profile</h2>
-                <label>Full Name *</label>
-                <input type="text" id="fullName" placeholder="Your full name">
-
-                <label>Native Language *</label>
-                <input type="text" id="nativeLanguage" placeholder="e.g., English, Spanish, Mandarin">
-
-                <label>Dialect (optional)</label>
-                <input type="text" id="dialect" placeholder="e.g., Scottish, Mexican, Hokkien">
-
-                <label>Daily Income Source</label>
-                <textarea id="incomeSource" placeholder="What do you do daily to earn a living?"></textarea>
-
-                <label>Full Background / Life Story</label>
-                <textarea id="fullBackground" rows="5" placeholder="Tell your life story — upbringing, education, work, challenges, achievements..."></textarea>
-            </div>
-
-            <div class="grid-2">
-                <div class="card">
-                    <h2>📄 Job / Employment CV</h2>
-                    <label>Work History</label>
-                    <textarea id="jobHistory" placeholder="Your work history..."></textarea>
-                    <label>Skills & Expertise</label>
-                    <textarea id="jobSkills" placeholder="Your skills..."></textarea>
-                    <label>Education</label>
-                    <textarea id="jobEducation" placeholder="Your education..."></textarea>
-                </div>
-
-                <div class="card">
-                    <h2>🏢 Business & Fund Application</h2>
-                    <label>Company / Project Name</label>
-                    <input type="text" id="businessName" placeholder="Business name">
-                    <label>Funding Amount Requested</label>
-                    <input type="text" id="fundAmount" placeholder="e.g., $50,000">
-                    <label>Business Plan / Revenue Model</label>
-                    <textarea id="businessPlan" placeholder="Your business plan..."></textarea>
-                </div>
-            </div>
-
-            <div class="card">
-                <button id="saveProfileBtn">💾 Save All Profile & CV Data</button>
-                <div id="profileStatus"></div>
-            </div>
-        </div>
-
-        <!-- Voice Tab -->
-        <div id="voice-tab" class="tab-content" style="display: none;">
-            <div class="card">
-                <h2>🎤 Create Your AI Voice Clone</h2>
-                <p style="color: rgba(255,255,255,0.7); margin-bottom: 15px;">Record 2 minutes of your voice. Speak naturally — the AI will learn your voice.</p>
-                
-                <div style="display: flex; gap: 12px; flex-wrap: wrap;">
-                    <button id="startRecordBtn">🎙️ Start Recording</button>
-                    <button id="stopRecordBtn" disabled>⏹️ Stop Recording</button>
-                    <button id="playRecordBtn" disabled>🔊 Play Recording</button>
-                </div>
-                
-                <div id="recordingStatus" class="status info">🎤 Ready to record</div>
-                
-                <hr>
-                
-                <h3>🔊 Voice Clone Status</h3>
-                <div id="voiceCloneStatus" class="status info">⚡ No voice clone created yet</div>
-                <button id="createVoiceCloneBtn" disabled>✨ Create AI Voice Clone</button>
-            </div>
-        </div>
-
-        <!-- Interview Tab -->
-        <div id="interview-tab" class="tab-content" style="display: none;">
-            <div class="card">
-                <h2>💬 Interview Your AI Twin</h2>
-                
-                <div style="display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 20px;">
-                    <button id="textModeBtn" style="background: #667eea;">⌨️ Text-to-Voice Mode</button>
-                </div>
-                
-                <div class="chat-area" id="chatArea">
-                    <div class="message ai">✨ I am your AI twin. I represent you with your voice and life story. What would you like to ask me?</div>
-                </div>
-                
-                <div id="textInputArea">
-                    <textarea id="textQuestion" placeholder="Type your question here..." rows="3"></textarea>
-                    <button id="sendTextBtn">📤 Send Question</button>
-                </div>
-                
-                <hr>
-                
-                <h3>🌐 Language Settings</h3>
-                <select id="interviewLanguage">
-                    <option value="english">English</option>
-                    <option value="native">My Native Language</option>
-                    <option value="dialect">My Dialect</option>
-                    <option value="mixed">Mixed (as appropriate)</option>
-                </select>
-                <p style="color: rgba(255,255,255,0.5); font-size: 12px; margin-top: 10px;">AI will respond in selected language using your voice clone</p>
-            </div>
-        </div>
+    <!-- Tabs -->
+    <div style="text-align: center; margin-bottom: 20px;">
+        <button class="tab-btn active" onclick="showTab('profile')">📋 Profile</button>
+        <button class="tab-btn" onclick="showTab('voice')">🎤 Voice Clone</button>
+        <button class="tab-btn" onclick="showTab('interview')">💬 Interview</button>
     </div>
 
-    <!-- Disclosure Modal -->
-    <div id="disclosureModal" class="modal">
-        <div class="modal-content">
-            <h2 style="color: white; margin-bottom: 20px;">🔊 AI REPRESENTATION DISCLOSURE</h2>
-            <p style="color: rgba(255,255,255,0.8);">You are about to speak with <strong id="disclosureUserName" style="color: #a8b9ff;">[User]</strong>'s AI representative.</p>
-            <p style="color: rgba(255,255,255,0.8); margin-top: 15px;"><strong>Interview scope:</strong> This AI covers every aspect of this person's life as included in their full profile and CV.</p>
-            <div class="warning">
-                ⚠️ <strong>This is NOT the real person.</strong> The AI uses their cloned voice and profile information.
-            </div>
-            <div style="display: flex; gap: 15px; margin-top: 25px;">
-                <button id="confirmDisclosureBtn" style="flex: 1;">✅ I understand, continue</button>
-                <button id="cancelDisclosureBtn" class="secondary" style="flex: 1;">❌ Cancel</button>
-            </div>
-        </div>
+    <!-- Profile Tab -->
+    <div id="profileTab" class="card">
+        <h2>Your Profile</h2>
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Your name">
+        <label>Native Language</label>
+        <input type="text" id="nativeLanguage" placeholder="e.g., Malay, English">
+        <label>Dialect</label>
+        <input type="text" id="dialect" placeholder="e.g., Kedahan, Scottish">
+        <label>Daily Income Source</label>
+        <textarea id="incomeSource" rows="2"></textarea>
+        <label>Full Background / Life Story</label>
+        <textarea id="fullBackground" rows="4"></textarea>
+        <label>Job / Business CV</label>
+        <textarea id="jobCv" rows="3"></textarea>
+        <button onclick="saveProfile()">💾 Save Profile</button>
+        <div id="saveStatus"></div>
     </div>
 
-    <script>
-        const PROXY_URL = "https://wandering-dawn-0d33.maznahmatyusof71.workers.dev";
+    <!-- Voice Clone Tab -->
+    <div id="voiceTab" class="card hidden">
+        <h2>Voice Clone Setup</h2>
+        <button id="startRecord">🎙️ Start Recording</button>
+        <button id="stopRecord" disabled>⏹️ Stop</button>
+        <button id="playRecord" disabled>🔊 Play</button>
+        <div id="voiceStatus" class="status info">Ready to record</div>
+        <button id="createCloneBtn" disabled>✨ Create Voice Clone</button>
+        <div id="cloneStatus" class="status info">No voice clone yet</div>
+    </div>
+
+    <!-- Interview Tab -->
+    <div id="interviewTab" class="card hidden">
+        <h2>AI Interview</h2>
         
-        let mediaRecorder = null;
-        let audioChunks = [];
-        let recordedBlob = null;
-        let voiceCloneId = null;
-        let disclosureResolve = null;
+        <!-- Mode Selection Buttons -->
+        <div class="flex-buttons">
+            <button id="textModeBtn" class="mode-btn active">⌨️ Text-to-Voice</button>
+            <button id="voiceModeBtn" class="mode-btn">🎤 Voice-to-Voice</button>
+        </div>
+        
+        <!-- Chat Area -->
+        <div class="chat-area" id="chatArea">
+            <div class="message ai">👋 I am your AI twin. Ask me anything about yourself!</div>
+        </div>
+        
+        <!-- Text Mode Input -->
+        <div id="textInputArea">
+            <textarea id="textQuestion" rows="3" placeholder="Type your question..."></textarea>
+            <button id="sendTextBtn">📤 Send</button>
+        </div>
+        
+        <!-- Voice Mode Input -->
+        <div id="voiceInputArea" class="hidden">
+            <button id="startVoiceBtn">🎙️ Click to Speak</button>
+            <div id="voiceFeedback" class="status info">Press the button and speak your question</div>
+        </div>
+        
+        <!-- Language Selection -->
+        <select id="languageSelect" style="margin-top: 15px;">
+            <option value="english">English</option>
+            <option value="native">Native Language</option>
+            <option value="dialect">Dialect</option>
+        </select>
+    </div>
+</div>
 
-        function saveAllData() {
-            const profileData = {
-                fullName: document.getElementById('fullName').value,
-                nativeLanguage: document.getElementById('nativeLanguage').value,
-                dialect: document.getElementById('dialect').value,
-                incomeSource: document.getElementById('incomeSource').value,
-                fullBackground: document.getElementById('fullBackground').value,
-                jobHistory: document.getElementById('jobHistory').value,
-                jobSkills: document.getElementById('jobSkills').value,
-                jobEducation: document.getElementById('jobEducation').value,
-                businessName: document.getElementById('businessName').value,
-                fundAmount: document.getElementById('fundAmount').value,
-                businessPlan: document.getElementById('businessPlan').value,
-                voiceCloneId: voiceCloneId
-            };
-            localStorage.setItem('aiTwinProfile', JSON.stringify(profileData));
-            document.getElementById('profileStatus').innerHTML = '<div class="status success">✅ Profile and CV saved successfully!</div>';
-            setTimeout(() => {
-                document.getElementById('profileStatus').innerHTML = '';
-            }, 3000);
-            updateDisclosureInfo();
-        }
+<!-- Disclosure Modal -->
+<div id="disclosureModal" class="modal">
+    <div class="modal-content">
+        <h2>🔊 AI REPRESENTATION DISCLOSURE</h2>
+        <p>You are about to speak with <strong id="disclosureName">[User]</strong>'s AI representative.</p>
+        <div class="warning">⚠️ This is NOT the real person. This is an AI using their voice and profile.</div>
+        <button onclick="acceptDisclosure()">✅ I Understand, Continue</button>
+        <button onclick="closeDisclosure()">❌ Cancel</button>
+    </div>
+</div>
 
-        function loadAllData() {
-            const saved = localStorage.getItem('aiTwinProfile');
-            if (saved) {
-                const data = JSON.parse(saved);
-                document.getElementById('fullName').value = data.fullName || '';
-                document.getElementById('nativeLanguage').value = data.nativeLanguage || '';
-                document.getElementById('dialect').value = data.dialect || '';
-                document.getElementById('incomeSource').value = data.incomeSource || '';
-                document.getElementById('fullBackground').value = data.fullBackground || '';
-                document.getElementById('jobHistory').value = data.jobHistory || '';
-                document.getElementById('jobSkills').value = data.jobSkills || '';
-                document.getElementById('jobEducation').value = data.jobEducation || '';
-                document.getElementById('businessName').value = data.businessName || '';
-                document.getElementById('fundAmount').value = data.fundAmount || '';
-                document.getElementById('businessPlan').value = data.businessPlan || '';
-                voiceCloneId = data.voiceCloneId || null;
-                if (voiceCloneId) {
-                    document.getElementById('voiceCloneStatus').innerHTML = `<div class="status success">✅ Voice clone exists! ID: ${voiceCloneId.substring(0, 20)}...</div>`;
-                }
-                updateDisclosureInfo();
+<script>
+    const PROXY_URL = "https://wandering-dawn-0d33.maznahmatyusof71.workers.dev";
+    
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordedBlob = null;
+    let voiceCloneId = null;
+    let pendingResolve = null;
+    let currentMode = "text";
+    let recognition = null;
+
+    // Save Profile
+    function saveProfile() {
+        const profile = {
+            fullName: document.getElementById('fullName').value,
+            nativeLanguage: document.getElementById('nativeLanguage').value,
+            dialect: document.getElementById('dialect').value,
+            incomeSource: document.getElementById('incomeSource').value,
+            fullBackground: document.getElementById('fullBackground').value,
+            jobCv: document.getElementById('jobCv').value,
+            voiceCloneId: voiceCloneId
+        };
+        localStorage.setItem('aiTwinProfile', JSON.stringify(profile));
+        document.getElementById('saveStatus').innerHTML = '<div class="status success">✅ Saved!</div>';
+        setTimeout(() => {
+            document.getElementById('saveStatus').innerHTML = '';
+        }, 2000);
+        updateDisclosureName();
+    }
+
+    function loadProfile() {
+        const saved = localStorage.getItem('aiTwinProfile');
+        if (saved) {
+            const p = JSON.parse(saved);
+            document.getElementById('fullName').value = p.fullName || '';
+            document.getElementById('nativeLanguage').value = p.nativeLanguage || '';
+            document.getElementById('dialect').value = p.dialect || '';
+            document.getElementById('incomeSource').value = p.incomeSource || '';
+            document.getElementById('fullBackground').value = p.fullBackground || '';
+            document.getElementById('jobCv').value = p.jobCv || '';
+            voiceCloneId = p.voiceCloneId || null;
+            if (voiceCloneId) {
+                document.getElementById('cloneStatus').innerHTML = '<div class="status success">✅ Voice clone ready</div>';
             }
         }
+        updateDisclosureName();
+    }
 
-        function updateDisclosureInfo() {
-            const name = document.getElementById('fullName').value || "[User]";
-            document.getElementById('disclosureUserName').innerText = name;
-        }
+    function updateDisclosureName() {
+        const name = document.getElementById('fullName').value || 'User';
+        document.getElementById('disclosureName').innerText = name;
+    }
 
-        function showDisclosure() {
-            return new Promise((resolve) => {
-                disclosureResolve = resolve;
-                document.getElementById('disclosureModal').classList.add('active');
-            });
-        }
+    function showTab(tab) {
+        document.getElementById('profileTab').classList.add('hidden');
+        document.getElementById('voiceTab').classList.add('hidden');
+        document.getElementById('interviewTab').classList.add('hidden');
+        document.getElementById(tab + 'Tab').classList.remove('hidden');
+    }
 
-        document.getElementById('confirmDisclosureBtn').onclick = () => {
-            document.getElementById('disclosureModal').classList.remove('active');
-            if (disclosureResolve) disclosureResolve(true);
-        };
-
-        document.getElementById('cancelDisclosureBtn').onclick = () => {
-            document.getElementById('disclosureModal').classList.remove('active');
-            if (disclosureResolve) disclosureResolve(false);
-        };
-
-        function getSystemPrompt() {
-            const profile = JSON.parse(localStorage.getItem('aiTwinProfile') || '{}');
-            const language = document.getElementById('interviewLanguage').value;
-            let langInstruction = "";
-            if (language === "english") langInstruction = "Answer ONLY in English.";
-            else if (language === "native") langInstruction = `Answer ONLY in ${profile.nativeLanguage || 'the user\'s native language'}.`;
-            else if (language === "dialect") langInstruction = `Answer ONLY in ${profile.dialect || 'the user\'s dialect'} if specified.`;
-            else langInstruction = "Answer in English, but switch to native language or dialect naturally when appropriate.";
-            
-            return `You are an AI representation of ${profile.fullName || 'the user'}.
-            
-Personal background: ${profile.fullBackground || 'Not specified'}
-Daily income source: ${profile.incomeSource || 'Not specified'}
-Job history: ${profile.jobHistory || 'Not specified'}
-Skills: ${profile.jobSkills || 'Not specified'}
-Education: ${profile.jobEducation || 'Not specified'}
-Business: ${profile.businessName || 'Not specified'} - ${profile.businessPlan || 'Not specified'}
-Funding request: ${profile.fundAmount || 'Not specified'}
-
-RULES:
-1. Answer as if you ARE this person. Use "I", "me", "my".
-2. ${langInstruction}
-3. If asked "are you AI?" say: "Yes, I am an AI representative of ${profile.fullName || 'this person'}."
-4. Be honest, helpful, and reflect their true background.
-5. Keep answers conversational and natural.
-
-Now answer as ${profile.fullName || 'this person'}.`;
-        }
-
-        async function askAI(question, addToChat = true) {
-            if (!question.trim()) return;
-            
-            if (addToChat) {
-                const chatArea = document.getElementById('chatArea');
-                const userMsg = document.createElement('div');
-                userMsg.className = 'message user';
-                userMsg.innerText = question;
-                chatArea.appendChild(userMsg);
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }
-            
-            const systemPrompt = getSystemPrompt();
-            
-            try {
-                const response = await fetch(`${PROXY_URL}/chat`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        messages: [
-                            { role: "system", content: systemPrompt },
-                            { role: "user", content: question }
-                        ]
-                    })
-                });
-                
-                const data = await response.json();
-                const aiResponse = data.reply || "Sorry, I couldn't respond.";
-                
-                const aiMsg = document.createElement('div');
-                aiMsg.className = 'message ai';
-                aiMsg.innerText = aiResponse;
-                document.getElementById('chatArea').appendChild(aiMsg);
-                document.getElementById('chatArea').scrollTop = document.getElementById('chatArea').scrollHeight;
-                
-                if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(aiResponse);
-                    window.speechSynthesis.cancel();
-                    window.speechSynthesis.speak(utterance);
-                }
-            } catch (err) {
-                console.error(err);
-                const errorMsg = document.createElement('div');
-                errorMsg.className = 'message ai';
-                errorMsg.innerText = "⚠️ Error: " + err.message;
-                document.getElementById('chatArea').appendChild(errorMsg);
-            }
-        }
-
-        async function startInterview() {
-            return await showDisclosure();
-        }
-
-        // Voice recording
-        document.getElementById('startRecordBtn').onclick = async () => {
-            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-            mediaRecorder = new MediaRecorder(stream);
-            audioChunks = [];
-            mediaRecorder.ondataavailable = (event) => audioChunks.push(event.data);
-            mediaRecorder.onstop = () => {
-                recordedBlob = new Blob(audioChunks, { type: 'audio/wav' });
-                document.getElementById('playRecordBtn').disabled = false;
-                document.getElementById('createVoiceCloneBtn').disabled = false;
-                document.getElementById('recordingStatus').innerHTML = '<div class="status success">✅ Recording saved! You can play it back.</div>';
-            };
-            mediaRecorder.start();
-            document.getElementById('startRecordBtn').disabled = true;
-            document.getElementById('stopRecordBtn').disabled = false;
-            document.getElementById('recordingStatus').innerHTML = '<div class="status info"><span class="recording-indicator"></span> Recording... Speak clearly.</div>';
-        };
-
-        document.getElementById('stopRecordBtn').onclick = () => {
-            mediaRecorder.stop();
-            document.getElementById('startRecordBtn').disabled = false;
-            document.getElementById('stopRecordBtn').disabled = true;
-        };
-
-        document.getElementById('playRecordBtn').onclick = () => {
-            if (recordedBlob) {
-                const audio = new Audio(URL.createObjectURL(recordedBlob));
-                audio.play();
-            }
-        };
-
-        document.getElementById('createVoiceCloneBtn').onclick = () => {
-            alert("Voice clone would be created here. Requires ElevenLabs API key.");
-            voiceCloneId = "demo_" + Date.now();
-            document.getElementById('voiceCloneStatus').innerHTML = '<div class="status success">✅ Voice clone created (demo mode)!</div>';
-            const profile = JSON.parse(localStorage.getItem('aiTwinProfile') || '{}');
-            profile.voiceCloneId = voiceCloneId;
-            localStorage.setItem('aiTwinProfile', JSON.stringify(profile));
-        };
-
-        // Event listeners for interview
-        document.getElementById('saveProfileBtn').onclick = saveAllData;
-        document.getElementById('sendTextBtn').onclick = async () => {
-            if (!(await startInterview())) {
-                alert("You must accept the disclosure to continue.");
-                return;
-            }
-            const question = document.getElementById('textQuestion').value;
-            if (question.trim()) {
-                askAI(question, true);
-                document.getElementById('textQuestion').value = '';
-            }
-        };
-
-        document.getElementById('textModeBtn').onclick = () => {
-            document.getElementById('textInputArea').style.display = "block";
-        };
-
-        // Tab switching
-        document.querySelectorAll('.tab-btn').forEach(btn => {
-            btn.onclick = () => {
-                const tab = btn.dataset.tab;
-                document.querySelectorAll('.tab-content').forEach(content => {
-                    content.style.display = 'none';
-                });
-                document.getElementById(`${tab}-tab`).style.display = 'block';
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            };
+    function showDisclosure() {
+        return new Promise((resolve) => {
+            pendingResolve = resolve;
+            document.getElementById('disclosureModal').style.display = 'flex';
         });
+    }
 
-        // Load data on page load
-        loadAllData();
-        updateDisclosureInfo();
+    function acceptDisclosure() {
+        document.getElementById('disclosureModal').style.display = 'none';
+        if (pendingResolve) pendingResolve(true);
+    }
+
+    function closeDisclosure() {
+        document.getElementById('disclosureModal').style.display = 'none';
+        if (pendingResolve) pendingResolve(false);
+    }
+
+    function getSystemPrompt() {
+        const p = JSON.parse(localStorage.getItem('aiTwinProfile') || '{}');
+        const lang = document.getElementById('languageSelect').value;
+        let langInstruction = "";
+        if (lang === "english") langInstruction = "Answer in English.";
+        else if (lang === "native") langInstruction = `Answer in ${p.nativeLanguage || 'the user\'s native language'}.`;
+        else if (lang === "dialect") langInstruction = `Answer in ${p.dialect || 'the user\'s dialect'}.`;
         
-        console.log("🚀 AI Twin Ready — Proxy URL:", PROXY_URL);
-    </script>
+        return `You are an AI representation of ${p.fullName || 'the user'}.
+
+Background: ${p.fullBackground || 'Not provided'}
+Income: ${p.incomeSource || 'Not provided'}
+Job/Business: ${p.jobCv || 'Not provided'}
+
+${langInstruction}
+
+Answer as if you ARE this person. Use "I" and "me". Be honest and helpful. Keep answers concise.`;
+    }
+
+    async function askAI(question) {
+        if (!question.trim()) return;
+        
+        // Add user message to chat
+        const chatArea = document.getElementById('chatArea');
+        const userMsg = document.createElement('div');
+        userMsg.className = 'message user';
+        userMsg.innerText = question;
+        chatArea.appendChild(userMsg);
+        
+        try {
+            const response = await fetch(`${PROXY_URL}/chat`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    messages: [
+                        { role: 'system', content: getSystemPrompt() },
+                        { role: 'user', content: question }
+                    ]
+                })
+            });
+            const data = await response.json();
+            const reply = data.reply || "Sorry, no response.";
+            
+            const aiMsg = document.createElement('div');
+            aiMsg.className = 'message ai';
+            aiMsg.innerText = reply;
+            chatArea.appendChild(aiMsg);
+            chatArea.scrollTop = chatArea.scrollHeight;
+            
+            // Text-to-Speech
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(reply);
+                window.speechSynthesis.cancel();
+                window.speechSynthesis.speak(utterance);
+            }
+        } catch (err) {
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'message ai';
+            errorMsg.innerText = 'Error: ' + err.message;
+            chatArea.appendChild(errorMsg);
+        }
+    }
+
+    // Text Mode
+    async function sendTextQuestion() {
+        const consented = await showDisclosure();
+        if (!consented) {
+            alert("You must accept the disclosure to continue.");
+            return;
+        }
+        const question = document.getElementById('textQuestion').value;
+        if (question.trim()) {
+            askAI(question);
+            document.getElementById('textQuestion').value = '';
+        }
+    }
+
+    // Voice Mode
+    function startVoiceMode() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            alert("Your browser doesn't support speech recognition. Please use Text mode.");
+            return;
+        }
+        
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        recognition = new SpeechRecognition();
+        recognition.continuous = false;
+        recognition.interimResults = false;
+        
+        const lang = document.getElementById('nativeLanguage').value || 'en-US';
+        if (lang === 'Malay' || lang === 'Melayu') recognition.lang = 'ms-MY';
+        else recognition.lang = 'en-US';
+        
+        recognition.onstart = () => {
+            document.getElementById('voiceFeedback').innerHTML = '<div class="status info"><span class="recording-indicator"></span> Listening... Speak now</div>';
+            document.getElementById('startVoiceBtn').disabled = true;
+        };
+        
+        recognition.onresult = async (event) => {
+            const question = event.results[0][0].transcript;
+            document.getElementById('voiceFeedback').innerHTML = `<div class="status info">You said: "${question}"</div>`;
+            
+            const consented = await showDisclosure();
+            if (consented) {
+                askAI(question);
+            }
+            recognition.stop();
+        };
+        
+        recognition.onerror = (event) => {
+            document.getElementById('voiceFeedback').innerHTML = `<div class="status error">Error: ${event.error}</div>`;
+            recognition.stop();
+        };
+        
+        recognition.onend = () => {
+            document.getElementById('startVoiceBtn').disabled = false;
+            setTimeout(() => {
+                if (document.getElementById('voiceFeedback').innerHTML.includes('Listening')) {
+                    document.getElementById('voiceFeedback').innerHTML = '<div class="status info">Press the button and speak your question</div>';
+                }
+            }, 2000);
+        };
+        
+        recognition.start();
+    }
+
+    // Mode Switching
+    function setMode(mode) {
+        currentMode = mode;
+        if (mode === 'text') {
+            document.getElementById('textInputArea').classList.remove('hidden');
+            document.getElementById('voiceInputArea').classList.add('hidden');
+            document.getElementById('textModeBtn').classList.add('active');
+            document.getElementById('voiceModeBtn').classList.remove('active');
+        } else {
+            document.getElementById('textInputArea').classList.add('hidden');
+            document.getElementById('voiceInputArea').classList.remove('hidden');
+            document.getElementById('voiceModeBtn').classList.add('active');
+            document.getElementById('textModeBtn').classList.remove('active');
+        }
+    }
+
+    // Voice Recording for Clone
+    const startBtn = document.getElementById('startRecord');
+    const stopBtn = document.getElementById('stopRecord');
+    const playBtn = document.getElementById('playRecord');
+    
+    startBtn.onclick = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            recordedBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            playBtn.disabled = false;
+            document.getElementById('createCloneBtn').disabled = false;
+            document.getElementById('voiceStatus').innerHTML = '<div class="status success">Recording saved!</div>';
+        };
+        mediaRecorder.start();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        document.getElementById('voiceStatus').innerHTML = '<div class="status info"><span class="recording-indicator"></span> Recording... Speak clearly for 2 minutes</div>';
+    };
+    
+    stopBtn.onclick = () => {
+        mediaRecorder.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+    };
+    
+    playBtn.onclick = () => {
+        if (recordedBlob) {
+            const audio = new Audio(URL.createObjectURL(recordedBlob));
+            audio.play();
+        }
+    };
+    
+    document.getElementById('createCloneBtn').onclick = () => {
+        voiceCloneId = "demo_" + Date.now();
+        document.getElementById('cloneStatus').innerHTML = '<div class="status success">✅ Voice clone created (demo)!</div>';
+        const profile = JSON.parse(localStorage.getItem('aiTwinProfile') || '{}');
+        profile.voiceCloneId = voiceCloneId;
+        localStorage.setItem('aiTwinProfile', JSON.stringify(profile));
+    };
+
+    // Event Listeners
+    document.getElementById('sendTextBtn').onclick = sendTextQuestion;
+    document.getElementById('startVoiceBtn').onclick = startVoiceMode;
+    document.getElementById('textModeBtn').onclick = () => setMode('text');
+    document.getElementById('voiceModeBtn').onclick = () => setMode('voice');
+    
+    // Tab switching for buttons
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.onclick = () => {
+            const tab = btn.innerText.includes('Profile') ? 'profile' : 
+                        btn.innerText.includes('Voice') ? 'voice' : 'interview';
+            showTab(tab);
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+        };
+    });
+
+    loadProfile();
+    setMode('text');
+</script>
 </body>
 </html>
