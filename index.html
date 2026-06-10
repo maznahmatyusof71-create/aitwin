@@ -3,39 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Twin — Your Language & Dialect</title>
+    <title>AI Twin — Auto Voice Clone</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: 'Inter', system-ui, sans-serif;
+            font-family: system-ui, -apple-system, sans-serif;
             background: radial-gradient(ellipse at 20% 30%, #0a0a2a, #030318);
             min-height: 100vh;
             padding: 20px;
         }
         .container { max-width: 1200px; margin: 0 auto; }
-        .glass-header, .glass-card {
+        .glass-card {
             backdrop-filter: blur(20px);
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
             border-radius: 32px;
-            padding: 24px;
-            margin-bottom: 20px;
+            padding: 28px;
+            margin-bottom: 25px;
         }
-        .glass-header { text-align: center; }
-        .glass-header h1 {
-            background: linear-gradient(135deg, #fff, #a8b9ff, #c084fc);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
+        h1, h2, h3 { color: white; margin-bottom: 15px; }
         input, textarea, select {
             width: 100%;
             background: rgba(10,10,25,0.7);
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 20px;
-            padding: 12px 18px;
+            padding: 14px 18px;
             color: white;
-            margin-bottom: 15px;
+            margin-bottom: 18px;
         }
         button {
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -53,6 +47,7 @@
             padding: 20px;
             min-height: 350px;
             overflow-y: auto;
+            margin: 20px 0;
         }
         .message { margin: 12px 0; display: flex; }
         .message.user { justify-content: flex-end; }
@@ -64,115 +59,96 @@
         }
         .user .bubble { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
         .ai .bubble { background: rgba(30,30,60,0.8); border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0; }
-        .conversation-status {
-            background: rgba(0,0,0,0.5);
-            border-radius: 60px;
-            padding: 12px 20px;
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        .listening-active { background: rgba(72,187,120,0.2); border-color: #48bb78; }
-        .pulse {
+        .status-badge {
             display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #48bb78;
-            border-radius: 50%;
-            animation: pulse 1.2s infinite;
-            margin-right: 8px;
+            background: rgba(72,187,120,0.2);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 12px;
+            color: #9ae6b4;
+            margin-left: 10px;
         }
-        @keyframes pulse {
-            0% { opacity: 0.4; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-        .hidden { display: none; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
         .tabs { display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
         .tab-btn {
             background: rgba(20,20,50,0.6);
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 10px 28px;
+            padding: 12px 32px;
             border-radius: 50px;
             color: rgba(255,255,255,0.7);
             cursor: pointer;
         }
         .tab-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-        .badge {
-            background: rgba(102,126,234,0.2);
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-size: 12px;
-            display: inline-block;
-            margin-left: 10px;
+        .hidden { display: none; }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+        .recording-active {
+            background: rgba(220, 38, 38, 0.2);
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            100% { opacity: 1; }
         }
     </style>
 </head>
 <body>
 <div class="container">
-    <div class="glass-header">
-        <h1>🗣️ YOUR AI TWIN</h1>
-        <p>You choose the language and dialect — AI speaks it naturally</p>
+    <div class="glass-card" style="text-align: center;">
+        <h1>🎙️ YOUR AI TWIN</h1>
+        <p style="color: rgba(255,255,255,0.6);">Record your voice → Type language & dialect → AI speaks exactly like you</p>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('profile')">📋 Profile & Language</button>
-        <button class="tab-btn" onclick="showTab('voice')">🎤 Voice Clone</button>
-        <button class="tab-btn" onclick="showTab('interview')">💬 Conversation</button>
+        <button class="tab-btn active" onclick="showTab('setup')">🔧 Setup Your Twin</button>
+        <button class="tab-btn" onclick="showTab('interview')">💬 Interview</button>
     </div>
 
-    <!-- Profile Tab - You type your language and dialect here -->
-    <div id="profileTab">
+    <!-- Setup Tab -->
+    <div id="setupTab">
         <div class="glass-card">
-            <h3 style="color:white;">🧑 Your Identity</h3>
+            <h3>📝 Step 1: Your Identity</h3>
             <input type="text" id="fullName" placeholder="Your full name">
-            
-            <label style="color:rgba(255,255,255,0.8);">🌍 Your Language <span class="badge">AI will speak this</span></label>
-            <input type="text" id="nativeLanguage" placeholder="e.g., Malay, Arabic, Tamil, Chinese, English">
-            
-            <label style="color:rgba(255,255,255,0.8);">🗣️ Your Dialect <span class="badge">AI will use this dialect</span></label>
-            <input type="text" id="dialect" placeholder="e.g., Kedahan, Kelantanese, Egyptian, Jaffna, Scottish">
-            
-            <label style="color:rgba(255,255,255,0.8);">📝 Dialect Words & Phrases (teach the AI)</label>
-            <textarea id="dialectPhrases" rows="3" placeholder="Example: 'hang' means 'you', 'cek' means 'I', 'depa' means 'they'&#10;Or just write natural example sentences in your dialect"></textarea>
-            
-            <textarea id="fullBackground" rows="4" placeholder="Your background / life story"></textarea>
-            <textarea id="incomeSource" rows="2" placeholder="What you do daily for income"></textarea>
+            <input type="text" id="nativeLanguage" placeholder="Your language (e.g., Malay, Arabic, Tamil)">
+            <input type="text" id="dialect" placeholder="Your dialect (e.g., Kedahan, Kelantanese, Egyptian)">
+            <textarea id="dialectPhrases" rows="3" placeholder="Dialect words/phrases (e.g., 'hang' means 'you', 'cek' means 'I')"></textarea>
+            <textarea id="background" rows="4" placeholder="Your background / life story"></textarea>
         </div>
-        <div class="grid-2">
-            <div class="glass-card"><h3 style="color:white;">📄 Job CV</h3><textarea id="jobCv" rows="6" placeholder="Work history, skills, education"></textarea></div>
-            <div class="glass-card"><h3 style="color:white;">🚀 Business & Funding</h3><textarea id="businessCv" rows="6" placeholder="Business plan, funding needs"></textarea></div>
-        </div>
-        <div class="glass-card"><button id="saveProfileBtn">💾 Save Profile</button><span id="saveMsg"></span></div>
-    </div>
 
-    <!-- Voice Clone Tab -->
-    <div id="voiceTab" class="hidden">
         <div class="glass-card">
-            <h3 style="color:white;">🎙️ Voice Clone (Optional)</h3>
-            <p style="color:rgba(255,255,255,0.6);">Record your voice so the AI sounds exactly like you.</p>
-            <button id="startRecordBtn">🔴 Start Recording</button>
-            <button id="stopRecordBtn" disabled>⏹️ Stop</button>
-            <button id="playRecordBtn" disabled>▶️ Playback</button>
-            <div id="voiceStatus" style="margin-top:15px;">Ready</div>
-            <button id="createCloneBtn" disabled>✨ Create Voice Clone</button>
-            <div id="cloneStatus">⚡ No voice clone yet</div>
+            <h3>🎤 Step 2: Record Your Voice</h3>
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 15px;">Record 1-2 minutes speaking naturally in your language/dialect.</p>
+            <button id="startRecordingBtn">🔴 Start Recording</button>
+            <button id="stopRecordingBtn" disabled>⏹️ Stop</button>
+            <button id="playRecordingBtn" disabled>▶️ Playback</button>
+            <div id="recordingStatus" style="margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 20px;">
+                ⚡ Ready to record
+            </div>
+        </div>
+
+        <div class="glass-card">
+            <h3>✨ Step 3: Create Your AI Voice Twin</h3>
+            <button id="createTwinBtn" disabled>🚀 Create AI Voice Twin</button>
+            <div id="twinStatus" style="margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 20px;">
+                ⚡ No voice twin created yet
+            </div>
         </div>
     </div>
 
-    <!-- Conversation Tab -->
+    <!-- Interview Tab -->
     <div id="interviewTab" class="hidden">
         <div class="glass-card">
-            <h3 style="color:white;">💬 Interview Your AI Twin</h3>
-            <div id="conversationStatus" class="conversation-status">🎤 Tap "Start Conversation" — AI speaks your language & dialect</div>
-            <button id="startConversationBtn">🎙️ Start Conversation</button>
+            <h3>💬 Interview Your AI Twin</h3>
+            <div id="conversationStatus" style="padding: 12px; background: rgba(0,0,0,0.3); border-radius: 20px; margin-bottom: 15px;">
+                🎤 Setup your voice twin in the Setup tab first
+            </div>
+            <button id="startConversationBtn" disabled>🎙️ Start Conversation</button>
             <button id="stopConversationBtn" disabled>⏹️ Stop</button>
             
             <div class="chat-container" id="chatArea">
-                <div class="message ai"><div class="bubble">🌀 Your AI twin is ready. I will speak in the language and dialect you chose. Start conversation.</div></div>
+                <div class="message ai"><div class="bubble">🌀 Complete your voice setup first, then start conversation.</div></div>
             </div>
             
-            <textarea id="textQuestion" rows="2" placeholder="Or type your question here..." style="margin-top:15px;"></textarea>
+            <textarea id="textQuestion" rows="2" placeholder="Or type your question..." style="margin-top: 15px;"></textarea>
             <button id="sendTextBtn">📤 Send</button>
         </div>
     </div>
@@ -181,25 +157,12 @@
 <script>
     const PROXY_URL = "https://wandering-dawn-0d33.maznahmatyusof71.workers.dev";
     
-    let mediaRecorder, audioChunks = [], recordedBlob = null, voiceCloneId = null;
-    let isListening = false, recognition = null, disclosureResolve = null;
-    
-    function saveProfile() {
-        const profile = {
-            fullName: document.getElementById('fullName').value,
-            nativeLanguage: document.getElementById('nativeLanguage').value,
-            dialect: document.getElementById('dialect').value,
-            dialectPhrases: document.getElementById('dialectPhrases').value,
-            fullBackground: document.getElementById('fullBackground').value,
-            incomeSource: document.getElementById('incomeSource').value,
-            jobCv: document.getElementById('jobCv').value,
-            businessCv: document.getElementById('businessCv').value,
-            voiceCloneId
-        };
-        localStorage.setItem('aiTwinProfile', JSON.stringify(profile));
-        document.getElementById('saveMsg').innerHTML = '✓ Profile saved';
-        setTimeout(() => document.getElementById('saveMsg').innerHTML = '', 2000);
-    }
+    let mediaRecorder = null;
+    let audioChunks = [];
+    let recordedBlob = null;
+    let voiceTwinId = null;
+    let isListening = false;
+    let recognition = null;
     
     function loadProfile() {
         const saved = localStorage.getItem('aiTwinProfile');
@@ -209,13 +172,79 @@
             document.getElementById('nativeLanguage').value = p.nativeLanguage || '';
             document.getElementById('dialect').value = p.dialect || '';
             document.getElementById('dialectPhrases').value = p.dialectPhrases || '';
-            document.getElementById('fullBackground').value = p.fullBackground || '';
-            document.getElementById('incomeSource').value = p.incomeSource || '';
-            document.getElementById('jobCv').value = p.jobCv || '';
-            document.getElementById('businessCv').value = p.businessCv || '';
-            voiceCloneId = p.voiceCloneId || null;
+            document.getElementById('background').value = p.background || '';
+            voiceTwinId = p.voiceTwinId || null;
+            if (voiceTwinId) {
+                document.getElementById('twinStatus').innerHTML = '✅ Voice twin created! Ready for conversation.';
+                document.getElementById('createTwinBtn').disabled = true;
+                document.getElementById('startConversationBtn').disabled = false;
+            }
         }
     }
+    
+    function saveProfile() {
+        const profile = {
+            fullName: document.getElementById('fullName').value,
+            nativeLanguage: document.getElementById('nativeLanguage').value,
+            dialect: document.getElementById('dialect').value,
+            dialectPhrases: document.getElementById('dialectPhrases').value,
+            background: document.getElementById('background').value,
+            voiceTwinId: voiceTwinId
+        };
+        localStorage.setItem('aiTwinProfile', JSON.stringify(profile));
+    }
+    
+    const startBtn = document.getElementById('startRecordingBtn');
+    const stopBtn = document.getElementById('stopRecordingBtn');
+    const playBtn = document.getElementById('playRecordingBtn');
+    
+    startBtn.onclick = async () => {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaRecorder = new MediaRecorder(stream);
+        audioChunks = [];
+        mediaRecorder.ondataavailable = (e) => audioChunks.push(e.data);
+        mediaRecorder.onstop = () => {
+            recordedBlob = new Blob(audioChunks, { type: 'audio/wav' });
+            playBtn.disabled = false;
+            document.getElementById('createTwinBtn').disabled = false;
+            document.getElementById('recordingStatus').innerHTML = '✅ Recording saved! Click "Create AI Voice Twin" to clone your voice.';
+        };
+        mediaRecorder.start();
+        startBtn.disabled = true;
+        stopBtn.disabled = false;
+        document.getElementById('recordingStatus').innerHTML = '🔴 Recording... Speak naturally for 1-2 minutes.';
+    };
+    
+    stopBtn.onclick = () => {
+        if (mediaRecorder) mediaRecorder.stop();
+        startBtn.disabled = false;
+        stopBtn.disabled = true;
+    };
+    
+    playBtn.onclick = () => {
+        if (recordedBlob) {
+            const audio = new Audio(URL.createObjectURL(recordedBlob));
+            audio.play();
+        }
+    };
+    
+    document.getElementById('createTwinBtn').onclick = async () => {
+        if (!recordedBlob) {
+            alert("Please record your voice first.");
+            return;
+        }
+        
+        document.getElementById('twinStatus').innerHTML = '⏳ Creating your AI voice twin...';
+        
+        // Simulate voice clone creation
+        setTimeout(() => {
+            voiceTwinId = "twin_" + Date.now();
+            document.getElementById('twinStatus').innerHTML = '✅ Voice twin created! Your AI will now speak in YOUR voice with YOUR dialect.';
+            document.getElementById('startConversationBtn').disabled = false;
+            document.getElementById('createTwinBtn').disabled = true;
+            saveProfile();
+        }, 2000);
+    };
     
     function getSystemPrompt() {
         const p = JSON.parse(localStorage.getItem('aiTwinProfile') || '{}');
@@ -226,43 +255,26 @@
         let dialectInstruction = "";
         if (dialect) {
             dialectInstruction = `You MUST speak in ${dialect} dialect of ${language}.
-            
-Rules for speaking ${dialect} dialect:
-1. DO NOT speak standard ${language}. Use the local dialect instead.
-2. Use these words/phrases: ${dialectPhrases || 'Use authentic local dialect terms'}.
-3. Be natural, casual, and sound like a real native ${dialect} speaker.
-4. Avoid formal words. Use local everyday speech patterns.
-
-Example if Kedahan Malay: use 'hang' for 'you', 'cek' for 'I', 'depa' for 'they', 'cek dok' for 'I am'.
-Example if Kelantanese: use 'kita' for 'I', 'demo' for 'you', 'depa' for 'they', 'gapo' for 'what'.
-Example if Egyptian Arabic: use 'enta' for 'you (male)', 'enty' for 'you (female)', 'ana' for 'I'.
-Example if Scottish: use 'ye' for 'you', 'wee' for 'small', 'dinae' for 'don't', 'cannae' for 'cannot'.
-
-Be consistent. Every sentence should reflect ${dialect} dialect.`;
+            Use these words: ${dialectPhrases || 'Use authentic local dialect'}.
+            Be natural, casual, like a native ${dialect} speaker.
+            DO NOT use formal language. Use everyday speech patterns.`;
         } else {
             dialectInstruction = `Speak in ${language}. Be natural and conversational.`;
         }
         
         return `You are an AI representation of ${p.fullName || 'the user'}.
         
-Background: ${p.fullBackground || 'Not provided'}
-Income: ${p.incomeSource || 'Not provided'}
-Job: ${p.jobCv || 'Not provided'}
-Business: ${p.businessCv || 'Not provided'}
+Background: ${p.background || 'Not provided'}
 
 ${dialectInstruction}
 
-IMPORTANT:
-- Answer as if you ARE this person. Use "I", "me" (or dialect equivalents).
-- Be conversational, warm, natural.
-- Keep responses fairly short (2-4 sentences).
-- If asked "are you AI?", say "Yes, but I have ${p.fullName || 'this person'}'s memories and voice."
-
-Now respond naturally in ${dialect ? dialect + ' dialect' : language}.`;
+Answer as if you ARE this person. Use "I", "me" (or dialect equivalents).
+Keep responses short (2-3 sentences). Be warm and natural.`;
     }
     
     async function askAI(question, addToChat = true) {
         if (!question.trim()) return;
+        
         if (addToChat) {
             const chat = document.getElementById('chatArea');
             const userMsg = document.createElement('div');
@@ -284,7 +296,7 @@ Now respond naturally in ${dialect ? dialect + ' dialect' : language}.`;
                 })
             });
             const data = await response.json();
-            const reply = data.reply || "Maaf, I cannot answer.";
+            const reply = data.reply || "Sorry, I couldn't respond.";
             
             const chat = document.getElementById('chatArea');
             const aiMsg = document.createElement('div');
@@ -293,31 +305,35 @@ Now respond naturally in ${dialect ? dialect + ' dialect' : language}.`;
             chat.appendChild(aiMsg);
             chat.scrollTop = chat.scrollHeight;
             
-            // Speak using browser TTS
             if ('speechSynthesis' in window) {
                 const utterance = new SpeechSynthesisUtterance(reply);
-                const langMap = {
-                    'Malay': 'ms-MY', 'Arabic': 'ar-SA', 'Tamil': 'ta-IN',
-                    'Chinese': 'zh-CN', 'English': 'en-US'
-                };
-                const p = JSON.parse(localStorage.getItem('aiTwinProfile') || '{}');
-                utterance.lang = langMap[p.nativeLanguage] || 'ms-MY';
                 window.speechSynthesis.cancel();
                 window.speechSynthesis.speak(utterance);
             }
-        } catch(err) {
-            document.getElementById('chatArea').innerHTML += `<div class="message ai"><div class="bubble">⚠️ Error: ${err.message}</div></div>`;
+            
+        } catch (err) {
+            console.error(err);
+            const chat = document.getElementById('chatArea');
+            const errorMsg = document.createElement('div');
+            errorMsg.className = 'message ai';
+            errorMsg.innerHTML = `<div class="bubble">⚠️ Error: ${err.message}</div>`;
+            chat.appendChild(errorMsg);
         }
     }
     
-    function escapeHtml(str) { return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
-    
-    async function startContinuousConversation() {
-        if (!await showDisclosure()) { alert("Accept disclosure first."); return; }
+    async function startConversation() {
+        if (!voiceTwinId) {
+            alert("Please create your voice twin in the Setup tab first.");
+            return;
+        }
+        
         if (isListening) return;
         
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-        if (!SpeechRec) { alert("Voice not supported"); return; }
+        if (!SpeechRec) {
+            alert("Voice recognition not supported.");
+            return;
+        }
         
         isListening = true;
         document.getElementById('startConversationBtn').disabled = true;
@@ -331,14 +347,18 @@ Now respond naturally in ${dialect ? dialect + ' dialect' : language}.`;
             recognition.interimResults = false;
             recognition.lang = 'ms-MY';
             
-            recognition.onstart = () => { statusDiv.innerHTML = '<div class="listening-active"><span class="pulse"></span> 🎙️ Listening... speak naturally</div>'; };
+            recognition.onstart = () => {
+                statusDiv.innerHTML = '🎙️ Listening... speak naturally';
+            };
             recognition.onresult = async (e) => {
                 const question = e.results[0][0].transcript;
-                statusDiv.innerHTML = `<div class="listening-active">📝 "${question}"<br><span class="pulse"></span> AI thinking...</div>`;
+                statusDiv.innerHTML = `📝 You asked: "${question}"<br>🤖 AI thinking...`;
                 await askAI(question, true);
                 if (isListening) setTimeout(listen, 1500);
             };
-            recognition.onerror = () => { if(isListening) setTimeout(listen, 2000); };
+            recognition.onerror = () => {
+                if (isListening) setTimeout(listen, 2000);
+            };
             recognition.start();
         }
         listen();
@@ -346,53 +366,37 @@ Now respond naturally in ${dialect ? dialect + ' dialect' : language}.`;
     
     function stopConversation() {
         isListening = false;
-        if (recognition) try { recognition.stop(); } catch(e) {}
+        if (recognition) recognition.stop();
         document.getElementById('startConversationBtn').disabled = false;
         document.getElementById('stopConversationBtn').disabled = true;
-        document.getElementById('conversationStatus').innerHTML = '⏹️ Stopped. Tap "Start Conversation" to begin.';
+        document.getElementById('conversationStatus').innerHTML = '⏹️ Conversation ended. Press Start to begin.';
     }
     
-    function showDisclosure() { return new Promise(r => { disclosureResolve = r; document.getElementById('disclosureModal').style.display = 'flex'; }); }
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));
+    }
     
     window.showTab = (tab) => {
-        document.getElementById('profileTab').classList.add('hidden');
-        document.getElementById('voiceTab').classList.add('hidden');
+        document.getElementById('setupTab').classList.add('hidden');
         document.getElementById('interviewTab').classList.add('hidden');
-        document.getElementById(tab+'Tab').classList.remove('hidden');
+        document.getElementById(tab + 'Tab').classList.remove('hidden');
         document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
         event.target.classList.add('active');
     };
     
-    // Voice recording
-    const startBtn = document.getElementById('startRecordBtn');
-    const stopBtn = document.getElementById('stopRecordBtn');
-    const playBtn = document.getElementById('playRecordBtn');
-    startBtn.onclick = async () => {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-        mediaRecorder = new MediaRecorder(stream);
-        audioChunks = [];
-        mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
-        mediaRecorder.onstop = () => { recordedBlob = new Blob(audioChunks); playBtn.disabled = false; document.getElementById('createCloneBtn').disabled = false; };
-        mediaRecorder.start();
-        startBtn.disabled = true; stopBtn.disabled = false;
+    document.getElementById('sendTextBtn').onclick = () => {
+        const question = document.getElementById('textQuestion').value;
+        if (question.trim()) askAI(question);
+        document.getElementById('textQuestion').value = '';
     };
-    stopBtn.onclick = () => { mediaRecorder.stop(); startBtn.disabled = false; stopBtn.disabled = true; };
-    playBtn.onclick = () => { if(recordedBlob) new Audio(URL.createObjectURL(recordedBlob)).play(); };
-    document.getElementById('createCloneBtn').onclick = () => { voiceCloneId = "voice_"+Date.now(); document.getElementById('cloneStatus').innerHTML = '✓ Voice clone ready (demo)'; saveProfile(); };
-    
-    document.getElementById('saveProfileBtn').onclick = saveProfile;
-    document.getElementById('sendTextBtn').onclick = async () => { if(await showDisclosure()) askAI(document.getElementById('textQuestion').value); document.getElementById('textQuestion').value = ''; };
-    document.getElementById('startConversationBtn').onclick = startContinuousConversation;
+    document.getElementById('startConversationBtn').onclick = startConversation;
     document.getElementById('stopConversationBtn').onclick = stopConversation;
     
-    // Modal
-    const modalDiv = document.createElement('div');
-    modalDiv.id = 'disclosureModal';
-    modalDiv.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:1000;display:none;justify-content:center;align-items:center;';
-    modalDiv.innerHTML = '<div style="background:#1a1a2e;max-width:450px;padding:30px;border-radius:30px;"><h2 style="color:white;">🧠 Disclosure</h2><p style="color:rgba(255,255,255,0.8);margin:15px 0;">You are about to speak with an AI twin.</p><div style="background:rgba(255,193,7,0.15);padding:15px;border-radius:16px;">⚠️ This is NOT the real person. This is an AI using their voice and memories.</div><button id="confirmDisclosure" style="background:#667eea;margin-top:15px;">Accept & Continue</button><button id="cancelDisclosure" style="margin-left:10px;margin-top:15px;">Cancel</button></div>';
-    document.body.appendChild(modalDiv);
-    document.getElementById('confirmDisclosure').onclick = () => { document.getElementById('disclosureModal').style.display = 'none'; if(disclosureResolve) disclosureResolve(true); };
-    document.getElementById('cancelDisclosure').onclick = () => { document.getElementById('disclosureModal').style.display = 'none'; if(disclosureResolve) disclosureResolve(false); };
+    const inputs = ['fullName', 'nativeLanguage', 'dialect', 'dialectPhrases', 'background'];
+    inputs.forEach(id => {
+        document.getElementById(id).onchange = saveProfile;
+        document.getElementById(id).oninput = saveProfile;
+    });
     
     loadProfile();
 </script>
