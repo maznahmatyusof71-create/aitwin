@@ -596,15 +596,25 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
             recognition.onstart = () => {
                 statusDiv.innerHTML = '<div class="voice-feedback"><span class="pulse-dot"></span> 🎙️ Listening... speak naturally</div>';
             };
+            
             recognition.onresult = async (e) => {
                 const question = e.results[0][0].transcript;
                 statusDiv.innerHTML = `<div class="voice-feedback">📝 "${question}"<br><span class="pulse-dot"></span> Neural twin thinking...</div>`;
                 await askAI(question, true);
                 if (isListening) setTimeout(listen, 1500);
             };
-            recognition.onerror = () => {
-                if (isListening) setTimeout(listen, 2000);
+            
+            recognition.onerror = (event) => {
+                console.error("Speech recognition error:", event.error);
+                let errorMsg = "Microphone error. ";
+                if (event.error === 'not-allowed') errorMsg = "Microphone access denied. Please allow microphone access and try again.";
+                else if (event.error === 'no-speech') errorMsg = "No speech detected. Please speak into the microphone.";
+                else if (event.error === 'network') errorMsg = "Network error. Please check your connection.";
+                else errorMsg = `Error: ${event.error}. Please try again.`;
+                statusDiv.innerHTML = `<div class="voice-feedback">🎤 ${errorMsg}</div>`;
+                if (isListening) setTimeout(listen, 3000);
             };
+            
             recognition.start();
         }
         listen();
