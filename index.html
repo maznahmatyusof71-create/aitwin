@@ -425,6 +425,17 @@
     let isListening = false;
     let recognition = null;
     
+    // Helper: Convert base64 to Blob for audio playback
+    function base64ToBlob(base64, mimeType) {
+        const byteCharacters = atob(base64);
+        const byteArrays = [];
+        for (let i = 0; i < byteCharacters.length; i++) {
+            byteArrays.push(byteCharacters.charCodeAt(i));
+        }
+        const byteArray = new Uint8Array(byteArrays);
+        return new Blob([byteArray], { type: mimeType });
+    }
+    
     function loadProfile() {
         const saved = localStorage.getItem('aiTwinProfile');
         if (saved) {
@@ -565,13 +576,33 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
             chat.appendChild(aiMsg);
             chat.scrollTop = chat.scrollHeight;
             
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(reply);
-                window.speechSynthesis.cancel();
-                window.speechSynthesis.speak(utterance);
+            // Play audio from Worker (OpenAI TTS) if available
+            if (data.audio) {
+                try {
+                    const audioBlob = base64ToBlob(data.audio, 'audio/mpeg');
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audio = new Audio(audioUrl);
+                    audio.play();
+                } catch (audioErr) {
+                    console.warn("Audio playback failed, falling back to browser TTS", audioErr);
+                    // Fallback to browser TTS
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(reply);
+                        window.speechSynthesis.cancel();
+                        window.speechSynthesis.speak(utterance);
+                    }
+                }
+            } else {
+                // Fallback to browser TTS if no audio from Worker
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(reply);
+                    window.speechSynthesis.cancel();
+                    window.speechSynthesis.speak(utterance);
+                }
             }
             
         } catch (err) {
+            console.error(err);
             const chat = document.getElementById('chatArea');
             const errorMsg = document.createElement('div');
             errorMsg.className = 'chat-message ai';
