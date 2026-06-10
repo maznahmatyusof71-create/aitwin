@@ -20,7 +20,6 @@
             position: relative;
         }
 
-        /* Animated Neural Background */
         .neural-bg {
             position: fixed;
             top: 0;
@@ -48,7 +47,6 @@
             100% { transform: translate(10%, 10%) rotate(5deg); }
         }
 
-        /* Floating Orbs */
         .orb {
             position: fixed;
             border-radius: 50%;
@@ -87,7 +85,6 @@
             z-index: 2;
         }
 
-        /* Glass Header */
         .glass-header {
             backdrop-filter: blur(20px);
             background: rgba(255,255,255,0.03);
@@ -96,7 +93,6 @@
             padding: 30px 40px;
             margin-bottom: 40px;
             text-align: center;
-            transition: all 0.4s ease;
         }
 
         .glass-header h1 {
@@ -105,13 +101,11 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
         }
 
         .glass-header p {
             color: rgba(255,255,255,0.6);
             margin-top: 10px;
-            font-size: 1.1rem;
         }
 
         .status-badge {
@@ -125,7 +119,6 @@
             margin-top: 15px;
         }
 
-        /* Futuristic Tabs */
         .tabs {
             display: flex;
             justify-content: center;
@@ -143,24 +136,20 @@
             color: rgba(255,255,255,0.7);
             font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            font-size: 1rem;
+            transition: all 0.3s;
         }
 
         .tab-btn:hover {
             border-color: rgba(102,126,234,0.6);
             transform: translateY(-2px);
-            background: rgba(102,126,234,0.15);
         }
 
         .tab-btn.active {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
-            border-color: transparent;
             box-shadow: 0 0 25px rgba(102,126,234,0.5);
         }
 
-        /* Glass Cards */
         .glass-card {
             background: rgba(15,15,35,0.55);
             backdrop-filter: blur(16px);
@@ -184,12 +173,8 @@
             background-clip: text;
             color: transparent;
             margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
         }
 
-        /* Inputs */
         .input-group {
             margin-bottom: 22px;
         }
@@ -198,9 +183,7 @@
             display: block;
             color: rgba(255,255,255,0.7);
             font-size: 0.85rem;
-            font-weight: 500;
             margin-bottom: 8px;
-            letter-spacing: 0.3px;
         }
 
         .futuristic-input, .futuristic-textarea {
@@ -211,14 +194,12 @@
             padding: 14px 18px;
             color: white;
             font-size: 0.95rem;
-            transition: all 0.25s;
         }
 
         .futuristic-input:focus, .futuristic-textarea:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 15px rgba(102,126,234,0.2);
-            background: rgba(20,20,45,0.8);
         }
 
         .futuristic-textarea {
@@ -226,7 +207,6 @@
             resize: vertical;
         }
 
-        /* Buttons */
         .neon-btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
@@ -236,7 +216,6 @@
             font-weight: 600;
             cursor: pointer;
             transition: all 0.25s;
-            font-size: 0.9rem;
             margin-right: 12px;
             margin-top: 10px;
             box-shadow: 0 4px 15px rgba(102,126,234,0.3);
@@ -253,12 +232,6 @@
             color: rgba(255,255,255,0.8);
         }
 
-        .outline-btn:hover {
-            background: rgba(102,126,234,0.2);
-            border-color: #667eea;
-        }
-
-        /* Chat Area */
         .chat-container {
             background: rgba(0,0,0,0.35);
             border-radius: 28px;
@@ -267,7 +240,6 @@
             max-height: 450px;
             overflow-y: auto;
             margin: 20px 0;
-            border: 1px solid rgba(255,255,255,0.06);
         }
 
         .chat-message {
@@ -284,7 +256,6 @@
             padding: 12px 20px;
             border-radius: 24px;
             font-size: 0.95rem;
-            line-height: 1.4;
         }
 
         .user .bubble {
@@ -295,20 +266,17 @@
 
         .ai .bubble {
             background: rgba(30,30,60,0.8);
-            backdrop-filter: blur(4px);
             border: 1px solid rgba(255,255,255,0.1);
             color: #e2e8f0;
             border-bottom-left-radius: 6px;
         }
 
-        /* Voice Feedback */
         .voice-feedback {
             background: rgba(0,0,0,0.5);
             border-radius: 60px;
             padding: 14px 20px;
             margin-top: 15px;
             text-align: center;
-            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .pulse-dot {
@@ -317,7 +285,6 @@
             height: 12px;
             background: #48bb78;
             border-radius: 50%;
-            box-shadow: 0 0 8px #48bb78;
             animation: pulse-green 1.5s infinite;
             margin-right: 8px;
         }
@@ -332,7 +299,6 @@
             border-color: #ef4444;
         }
 
-        /* Grid */
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -370,7 +336,6 @@
         <button class="tab-btn" onclick="showTab('interview')">💬 NEURAL LINK</button>
     </div>
 
-    <!-- Setup Tab -->
     <div id="setupTab">
         <div class="glass-card">
             <div class="card-title">🧬 YOUR IDENTITY CORE</div>
@@ -397,7 +362,6 @@
         </div>
     </div>
 
-    <!-- Interview Tab -->
     <div id="interviewTab" class="hidden">
         <div class="glass-card">
             <div class="card-title">💬 NEURAL INTERVIEW</div>
@@ -416,7 +380,9 @@
 </div>
 
 <script>
+    // ========== CORRECT WORKER URL ==========
     const PROXY_URL = "https://wandering-dawn-0d33.maznahmatyusof71.workers.dev";
+    // ========================================
     
     let mediaRecorder = null;
     let audioChunks = [];
@@ -566,6 +532,7 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
                     ]
                 })
             });
+            
             const data = await response.json();
             const reply = data.reply || "Sorry, I couldn't respond.";
             
@@ -576,33 +543,22 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
             chat.appendChild(aiMsg);
             chat.scrollTop = chat.scrollHeight;
             
-            // Play audio from Worker (OpenAI TTS) if available
+            // Play the audio from the Worker
             if (data.audio) {
                 try {
                     const audioBlob = base64ToBlob(data.audio, 'audio/mpeg');
                     const audioUrl = URL.createObjectURL(audioBlob);
                     const audio = new Audio(audioUrl);
-                    audio.play();
+                    audio.play().catch(e => console.warn("Audio play failed:", e));
                 } catch (audioErr) {
-                    console.warn("Audio playback failed, falling back to browser TTS", audioErr);
-                    // Fallback to browser TTS
-                    if ('speechSynthesis' in window) {
-                        const utterance = new SpeechSynthesisUtterance(reply);
-                        window.speechSynthesis.cancel();
-                        window.speechSynthesis.speak(utterance);
-                    }
+                    console.warn("Audio processing failed:", audioErr);
                 }
             } else {
-                // Fallback to browser TTS if no audio from Worker
-                if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(reply);
-                    window.speechSynthesis.cancel();
-                    window.speechSynthesis.speak(utterance);
-                }
+                console.log("No audio received, text only");
             }
             
         } catch (err) {
-            console.error(err);
+            console.error("AskAI error:", err);
             const chat = document.getElementById('chatArea');
             const errorMsg = document.createElement('div');
             errorMsg.className = 'chat-message ai';
