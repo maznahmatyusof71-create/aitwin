@@ -2,36 +2,232 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Twin — Auto Voice Clone</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="theme-color" content="#0a0a2a">
+    <title>NEURAL TWIN — Your AI Voice Twin</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: radial-gradient(ellipse at 20% 30%, #0a0a2a, #030318);
             min-height: 100vh;
-            padding: 20px;
+            overflow-x: hidden;
+            position: relative;
         }
-        .container { max-width: 1200px; margin: 0 auto; }
-        .glass-card {
+
+        /* Animated Neural Background */
+        .neural-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .neural-bg::before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: radial-gradient(circle at 25% 40%, rgba(102,126,234,0.15) 2px, transparent 2px);
+            background-size: 60px 60px;
+            animation: drift 40s linear infinite;
+        }
+
+        @keyframes drift {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            100% { transform: translate(10%, 10%) rotate(5deg); }
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 50vw;
+            height: 50vw;
+            background: rgba(102,126,234,0.15);
+            top: -20vh;
+            right: -20vw;
+            animation: float 25s infinite alternate;
+        }
+
+        .orb-2 {
+            width: 40vw;
+            height: 40vw;
+            background: rgba(118,75,162,0.12);
+            bottom: -10vh;
+            left: -10vw;
+            animation: float 20s infinite alternate-reverse;
+        }
+
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(5%, 5%) scale(1.1); }
+        }
+
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Glass Header */
+        .glass-header {
             backdrop-filter: blur(20px);
             background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 32px;
-            padding: 28px;
-            margin-bottom: 25px;
+            border-radius: 60px;
+            padding: 30px 40px;
+            margin-bottom: 40px;
+            text-align: center;
+            transition: all 0.4s ease;
         }
-        h1, h2, h3 { color: white; margin-bottom: 15px; }
-        input, textarea, select {
+
+        .glass-header h1 {
+            font-size: 3.2rem;
+            background: linear-gradient(135deg, #fff, #a8b9ff, #c084fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        .glass-header p {
+            color: rgba(255,255,255,0.6);
+            margin-top: 10px;
+            font-size: 1.1rem;
+        }
+
+        .status-badge {
+            display: inline-block;
+            background: rgba(72,187,120,0.2);
+            border: 1px solid rgba(72,187,120,0.4);
+            border-radius: 30px;
+            padding: 6px 18px;
+            font-size: 0.8rem;
+            color: #9ae6b4;
+            margin-top: 15px;
+        }
+
+        /* Futuristic Tabs */
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 35px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(20,20,50,0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px 36px;
+            border-radius: 50px;
+            color: rgba(255,255,255,0.7);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            font-size: 1rem;
+        }
+
+        .tab-btn:hover {
+            border-color: rgba(102,126,234,0.6);
+            transform: translateY(-2px);
+            background: rgba(102,126,234,0.15);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-color: transparent;
+            box-shadow: 0 0 25px rgba(102,126,234,0.5);
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: rgba(15,15,35,0.55);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid rgba(255,255,255,0.08);
+            padding: 32px;
+            margin-bottom: 28px;
+            transition: all 0.35s ease;
+        }
+
+        .glass-card:hover {
+            border-color: rgba(102,126,234,0.3);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .card-title {
+            font-size: 1.7rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff, #c4b5fd);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: 22px;
+        }
+
+        .input-group label {
+            display: block;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-bottom: 8px;
+            letter-spacing: 0.3px;
+        }
+
+        .futuristic-input, .futuristic-textarea {
             width: 100%;
             background: rgba(10,10,25,0.7);
             border: 1px solid rgba(255,255,255,0.12);
             border-radius: 20px;
             padding: 14px 18px;
             color: white;
-            margin-bottom: 18px;
+            font-size: 0.95rem;
+            transition: all 0.25s;
         }
-        button {
+
+        .futuristic-input:focus, .futuristic-textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102,126,234,0.2);
+            background: rgba(20,20,45,0.8);
+        }
+
+        .futuristic-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        /* Buttons */
+        .neon-btn {
             background: linear-gradient(135deg, #667eea, #764ba2);
             border: none;
             padding: 12px 28px;
@@ -39,117 +235,182 @@
             color: white;
             font-weight: 600;
             cursor: pointer;
-            margin: 5px;
+            transition: all 0.25s;
+            font-size: 0.9rem;
+            margin-right: 12px;
+            margin-top: 10px;
+            box-shadow: 0 4px 15px rgba(102,126,234,0.3);
         }
+
+        .neon-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102,126,234,0.5);
+        }
+
+        .outline-btn {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.25);
+            color: rgba(255,255,255,0.8);
+        }
+
+        .outline-btn:hover {
+            background: rgba(102,126,234,0.2);
+            border-color: #667eea;
+        }
+
+        /* Chat Area */
         .chat-container {
             background: rgba(0,0,0,0.35);
             border-radius: 28px;
             padding: 20px;
-            min-height: 350px;
+            min-height: 380px;
+            max-height: 450px;
             overflow-y: auto;
             margin: 20px 0;
+            border: 1px solid rgba(255,255,255,0.06);
         }
-        .message { margin: 12px 0; display: flex; }
-        .message.user { justify-content: flex-end; }
-        .message.ai { justify-content: flex-start; }
+
+        .chat-message {
+            margin: 15px 0;
+            display: flex;
+        }
+
+        .chat-message.user {
+            justify-content: flex-end;
+        }
+
         .bubble {
             max-width: 75%;
             padding: 12px 20px;
             border-radius: 24px;
+            font-size: 0.95rem;
+            line-height: 1.4;
         }
-        .user .bubble { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-        .ai .bubble { background: rgba(30,30,60,0.8); border: 1px solid rgba(255,255,255,0.1); color: #e2e8f0; }
-        .status-badge {
-            display: inline-block;
-            background: rgba(72,187,120,0.2);
-            border-radius: 20px;
-            padding: 4px 12px;
-            font-size: 12px;
-            color: #9ae6b4;
-            margin-left: 10px;
+
+        .user .bubble {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-bottom-right-radius: 6px;
         }
-        .tabs { display: flex; gap: 15px; justify-content: center; margin-bottom: 30px; flex-wrap: wrap; }
-        .tab-btn {
-            background: rgba(20,20,50,0.6);
+
+        .ai .bubble {
+            background: rgba(30,30,60,0.8);
+            backdrop-filter: blur(4px);
             border: 1px solid rgba(255,255,255,0.1);
-            padding: 12px 32px;
-            border-radius: 50px;
-            color: rgba(255,255,255,0.7);
-            cursor: pointer;
+            color: #e2e8f0;
+            border-bottom-left-radius: 6px;
         }
-        .tab-btn.active { background: linear-gradient(135deg, #667eea, #764ba2); color: white; }
-        .hidden { display: none; }
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .grid-2 { grid-template-columns: 1fr; } }
+
+        /* Voice Feedback */
+        .voice-feedback {
+            background: rgba(0,0,0,0.5);
+            border-radius: 60px;
+            padding: 14px 20px;
+            margin-top: 15px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .pulse-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            background: #48bb78;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #48bb78;
+            animation: pulse-green 1.5s infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes pulse-green {
+            0% { opacity: 0.4; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
         .recording-active {
             background: rgba(220, 38, 38, 0.2);
-            animation: pulse 1s infinite;
+            border-color: #ef4444;
         }
-        @keyframes pulse {
-            0% { opacity: 0.6; }
-            100% { opacity: 1; }
+
+        /* Grid */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        @media (max-width: 800px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            .glass-header h1 {
+                font-size: 2rem;
+            }
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 </head>
 <body>
+<div class="neural-bg"></div>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
 <div class="container">
-    <div class="glass-card" style="text-align: center;">
-        <h1>🎙️ YOUR AI TWIN</h1>
-        <p style="color: rgba(255,255,255,0.6);">Record your voice → Type language & dialect → AI speaks exactly like you</p>
+    <div class="glass-header">
+        <h1>⚡ NEURAL TWIN</h1>
+        <p>Your voice, your dialect, your AI representative</p>
+        <div class="status-badge">● Neural Interface Active</div>
     </div>
 
     <div class="tabs">
-        <button class="tab-btn active" onclick="showTab('setup')">🔧 Setup Your Twin</button>
-        <button class="tab-btn" onclick="showTab('interview')">💬 Interview</button>
+        <button class="tab-btn active" onclick="showTab('setup')">⟡ IDENTITY MATRIX</button>
+        <button class="tab-btn" onclick="showTab('interview')">💬 NEURAL LINK</button>
     </div>
 
     <!-- Setup Tab -->
     <div id="setupTab">
         <div class="glass-card">
-            <h3>📝 Step 1: Your Identity</h3>
-            <input type="text" id="fullName" placeholder="Your full name">
-            <input type="text" id="nativeLanguage" placeholder="Your language (e.g., Malay, Arabic, Tamil)">
-            <input type="text" id="dialect" placeholder="Your dialect (e.g., Kedahan, Kelantanese, Egyptian)">
-            <textarea id="dialectPhrases" rows="3" placeholder="Dialect words/phrases (e.g., 'hang' means 'you', 'cek' means 'I')"></textarea>
-            <textarea id="background" rows="4" placeholder="Your background / life story"></textarea>
+            <div class="card-title">🧬 YOUR IDENTITY CORE</div>
+            <div class="input-group"><label>FULL NAME</label><input type="text" id="fullName" class="futuristic-input" placeholder="Enter your name"></div>
+            <div class="input-group"><label>NATIVE LANGUAGE</label><input type="text" id="nativeLanguage" class="futuristic-input" placeholder="e.g., Malay, English, Arabic, Tamil"></div>
+            <div class="input-group"><label>DIALECT</label><input type="text" id="dialect" class="futuristic-input" placeholder="e.g., Kedahan, Scottish, Egyptian"></div>
+            <div class="input-group"><label>LIFE STORY / BACKGROUND</label><textarea id="background" class="futuristic-textarea" rows="4" placeholder="Your background, experiences, life story..."></textarea></div>
+            <div class="input-group"><label>DAILY INCOME SOURCE</label><textarea id="incomeSource" class="futuristic-textarea" rows="2" placeholder="What you do for a living..."></textarea></div>
         </div>
 
         <div class="glass-card">
-            <h3>🎤 Step 2: Record Your Voice</h3>
-            <p style="color: rgba(255,255,255,0.6); margin-bottom: 15px;">Record 1-2 minutes speaking naturally in your language/dialect.</p>
-            <button id="startRecordingBtn">🔴 Start Recording</button>
-            <button id="stopRecordingBtn" disabled>⏹️ Stop</button>
-            <button id="playRecordingBtn" disabled>▶️ Playback</button>
-            <div id="recordingStatus" style="margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 20px;">
-                ⚡ Ready to record
-            </div>
+            <div class="card-title">🎙️ VOICE ENGRAM</div>
+            <p style="color: rgba(255,255,255,0.6); margin-bottom: 20px;">Record 1-2 minutes speaking naturally in your language and dialect.</p>
+            <button class="neon-btn" id="startRecordingBtn">🔴 START RECORD</button>
+            <button class="neon-btn outline-btn" id="stopRecordingBtn" disabled>⏹️ STOP</button>
+            <button class="neon-btn outline-btn" id="playRecordingBtn" disabled>▶️ PLAYBACK</button>
+            <div id="recordingStatus" class="voice-feedback" style="margin-top: 20px;">⚡ Ready for encoding</div>
         </div>
 
         <div class="glass-card">
-            <h3>✨ Step 3: Create Your AI Voice Twin</h3>
-            <button id="createTwinBtn" disabled>🚀 Create AI Voice Twin</button>
-            <div id="twinStatus" style="margin-top: 15px; padding: 12px; background: rgba(0,0,0,0.3); border-radius: 20px;">
-                ⚡ No voice twin created yet
-            </div>
+            <div class="card-title">✨ GENERATE VOICE TWIN</div>
+            <button class="neon-btn" id="createTwinBtn" disabled>🚀 CREATE NEURAL TWIN</button>
+            <div id="twinStatus" class="voice-feedback">⚡ No voice twin linked</div>
         </div>
     </div>
 
     <!-- Interview Tab -->
     <div id="interviewTab" class="hidden">
         <div class="glass-card">
-            <h3>💬 Interview Your AI Twin</h3>
-            <div id="conversationStatus" style="padding: 12px; background: rgba(0,0,0,0.3); border-radius: 20px; margin-bottom: 15px;">
-                🎤 Setup your voice twin in the Setup tab first
-            </div>
-            <button id="startConversationBtn" disabled>🎙️ Start Conversation</button>
-            <button id="stopConversationBtn" disabled>⏹️ Stop</button>
+            <div class="card-title">💬 NEURAL INTERVIEW</div>
+            <div id="conversationStatus" class="voice-feedback" style="margin-bottom: 20px;">🎤 Complete voice setup first</div>
+            <button class="neon-btn" id="startConversationBtn" disabled>🎙️ START CONVERSATION</button>
+            <button class="neon-btn outline-btn" id="stopConversationBtn" disabled>⏹️ STOP</button>
             
             <div class="chat-container" id="chatArea">
-                <div class="message ai"><div class="bubble">🌀 Complete your voice setup first, then start conversation.</div></div>
+                <div class="chat-message ai"><div class="bubble">🌀 Neural twin ready. Complete your voice setup to begin.</div></div>
             </div>
             
-            <textarea id="textQuestion" rows="2" placeholder="Or type your question..." style="margin-top: 15px;"></textarea>
-            <button id="sendTextBtn">📤 Send</button>
+            <div class="input-group" style="margin-top: 20px;"><label>📝 OR TYPE YOUR QUESTION</label><textarea id="textQuestion" class="futuristic-textarea" rows="2" placeholder="Type your question here..."></textarea></div>
+            <button class="neon-btn" id="sendTextBtn">📡 TRANSMIT</button>
         </div>
     </div>
 </div>
@@ -171,11 +432,11 @@
             document.getElementById('fullName').value = p.fullName || '';
             document.getElementById('nativeLanguage').value = p.nativeLanguage || '';
             document.getElementById('dialect').value = p.dialect || '';
-            document.getElementById('dialectPhrases').value = p.dialectPhrases || '';
             document.getElementById('background').value = p.background || '';
+            document.getElementById('incomeSource').value = p.incomeSource || '';
             voiceTwinId = p.voiceTwinId || null;
             if (voiceTwinId) {
-                document.getElementById('twinStatus').innerHTML = '✅ Voice twin created! Ready for conversation.';
+                document.getElementById('twinStatus').innerHTML = '<div class="voice-feedback" style="background:rgba(72,187,120,0.2);">✅ Neural twin active</div>';
                 document.getElementById('createTwinBtn').disabled = true;
                 document.getElementById('startConversationBtn').disabled = false;
             }
@@ -187,8 +448,8 @@
             fullName: document.getElementById('fullName').value,
             nativeLanguage: document.getElementById('nativeLanguage').value,
             dialect: document.getElementById('dialect').value,
-            dialectPhrases: document.getElementById('dialectPhrases').value,
             background: document.getElementById('background').value,
+            incomeSource: document.getElementById('incomeSource').value,
             voiceTwinId: voiceTwinId
         };
         localStorage.setItem('aiTwinProfile', JSON.stringify(profile));
@@ -207,12 +468,12 @@
             recordedBlob = new Blob(audioChunks, { type: 'audio/wav' });
             playBtn.disabled = false;
             document.getElementById('createTwinBtn').disabled = false;
-            document.getElementById('recordingStatus').innerHTML = '✅ Recording saved! Click "Create AI Voice Twin" to clone your voice.';
+            document.getElementById('recordingStatus').innerHTML = '<div class="voice-feedback" style="background:rgba(72,187,120,0.2);">✅ Recording saved. Ready to create twin.</div>';
         };
         mediaRecorder.start();
         startBtn.disabled = true;
         stopBtn.disabled = false;
-        document.getElementById('recordingStatus').innerHTML = '🔴 Recording... Speak naturally for 1-2 minutes.';
+        document.getElementById('recordingStatus').innerHTML = '<div class="voice-feedback recording-active"><span class="pulse-dot"></span> 🔴 RECORDING... Speak naturally for 1-2 minutes</div>';
     };
     
     stopBtn.onclick = () => {
@@ -234,12 +495,11 @@
             return;
         }
         
-        document.getElementById('twinStatus').innerHTML = '⏳ Creating your AI voice twin...';
+        document.getElementById('twinStatus').innerHTML = '<div class="voice-feedback"><span class="pulse-dot"></span> ⏳ Creating neural twin...</div>';
         
-        // Simulate voice clone creation
         setTimeout(() => {
             voiceTwinId = "twin_" + Date.now();
-            document.getElementById('twinStatus').innerHTML = '✅ Voice twin created! Your AI will now speak in YOUR voice with YOUR dialect.';
+            document.getElementById('twinStatus').innerHTML = '<div class="voice-feedback" style="background:rgba(72,187,120,0.2);">✅ Neural twin created! Your AI now speaks in YOUR voice with YOUR dialect.</div>';
             document.getElementById('startConversationBtn').disabled = false;
             document.getElementById('createTwinBtn').disabled = true;
             saveProfile();
@@ -250,14 +510,13 @@
         const p = JSON.parse(localStorage.getItem('aiTwinProfile') || '{}');
         const language = p.nativeLanguage || 'English';
         const dialect = p.dialect || '';
-        const dialectPhrases = p.dialectPhrases || '';
         
         let dialectInstruction = "";
         if (dialect) {
             dialectInstruction = `You MUST speak in ${dialect} dialect of ${language}.
-            Use these words: ${dialectPhrases || 'Use authentic local dialect'}.
             Be natural, casual, like a native ${dialect} speaker.
-            DO NOT use formal language. Use everyday speech patterns.`;
+            Use authentic local words and expressions.
+            DO NOT use formal language.`;
         } else {
             dialectInstruction = `Speak in ${language}. Be natural and conversational.`;
         }
@@ -265,6 +524,7 @@
         return `You are an AI representation of ${p.fullName || 'the user'}.
         
 Background: ${p.background || 'Not provided'}
+Income: ${p.incomeSource || 'Not provided'}
 
 ${dialectInstruction}
 
@@ -278,7 +538,7 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
         if (addToChat) {
             const chat = document.getElementById('chatArea');
             const userMsg = document.createElement('div');
-            userMsg.className = 'message user';
+            userMsg.className = 'chat-message user';
             userMsg.innerHTML = `<div class="bubble">${escapeHtml(question)}</div>`;
             chat.appendChild(userMsg);
             chat.scrollTop = chat.scrollHeight;
@@ -300,7 +560,7 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
             
             const chat = document.getElementById('chatArea');
             const aiMsg = document.createElement('div');
-            aiMsg.className = 'message ai';
+            aiMsg.className = 'chat-message ai';
             aiMsg.innerHTML = `<div class="bubble">${escapeHtml(reply)}</div>`;
             chat.appendChild(aiMsg);
             chat.scrollTop = chat.scrollHeight;
@@ -312,18 +572,17 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
             }
             
         } catch (err) {
-            console.error(err);
             const chat = document.getElementById('chatArea');
             const errorMsg = document.createElement('div');
-            errorMsg.className = 'message ai';
-            errorMsg.innerHTML = `<div class="bubble">⚠️ Error: ${err.message}</div>`;
+            errorMsg.className = 'chat-message ai';
+            errorMsg.innerHTML = `<div class="bubble">⚠️ Neural link error: ${err.message}</div>`;
             chat.appendChild(errorMsg);
         }
     }
     
     async function startConversation() {
         if (!voiceTwinId) {
-            alert("Please create your voice twin in the Setup tab first.");
+            alert("Please create your voice twin first.");
             return;
         }
         
@@ -331,7 +590,7 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
         
         const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
         if (!SpeechRec) {
-            alert("Voice recognition not supported.");
+            alert("Voice recognition not supported in this browser.");
             return;
         }
         
@@ -348,11 +607,11 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
             recognition.lang = 'ms-MY';
             
             recognition.onstart = () => {
-                statusDiv.innerHTML = '🎙️ Listening... speak naturally';
+                statusDiv.innerHTML = '<div class="voice-feedback"><span class="pulse-dot"></span> 🎙️ Listening... speak naturally</div>';
             };
             recognition.onresult = async (e) => {
                 const question = e.results[0][0].transcript;
-                statusDiv.innerHTML = `📝 You asked: "${question}"<br>🤖 AI thinking...`;
+                statusDiv.innerHTML = `<div class="voice-feedback">📝 "${question}"<br><span class="pulse-dot"></span> Neural twin thinking...</div>`;
                 await askAI(question, true);
                 if (isListening) setTimeout(listen, 1500);
             };
@@ -369,7 +628,7 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
         if (recognition) recognition.stop();
         document.getElementById('startConversationBtn').disabled = false;
         document.getElementById('stopConversationBtn').disabled = true;
-        document.getElementById('conversationStatus').innerHTML = '⏹️ Conversation ended. Press Start to begin.';
+        document.getElementById('conversationStatus').innerHTML = '<div class="voice-feedback">⏹️ Neural link disconnected. Press Start to resume.</div>';
     }
     
     function escapeHtml(str) {
@@ -392,7 +651,7 @@ Keep responses short (2-3 sentences). Be warm and natural.`;
     document.getElementById('startConversationBtn').onclick = startConversation;
     document.getElementById('stopConversationBtn').onclick = stopConversation;
     
-    const inputs = ['fullName', 'nativeLanguage', 'dialect', 'dialectPhrases', 'background'];
+    const inputs = ['fullName', 'nativeLanguage', 'dialect', 'background', 'incomeSource'];
     inputs.forEach(id => {
         document.getElementById(id).onchange = saveProfile;
         document.getElementById(id).oninput = saveProfile;
